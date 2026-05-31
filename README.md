@@ -4,7 +4,7 @@ PyMapStitcher 3 is a desktop application for downloading, stitching, and exporti
 The software supports GPU acceleration with NVIDIA CUDA and CuPy, direct GeoTIFF georeferencing, WebView-based map selection,
 and high-performance tile processing for large-scale mapping workflows. 
 
-# Download Setup-EXE:
+# Download complete Python inclusive Setup-EXE:
 
 
 
