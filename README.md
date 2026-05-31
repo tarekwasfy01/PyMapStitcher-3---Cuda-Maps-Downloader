@@ -6,10 +6,12 @@ and high-performance tile processing for large-scale mapping workflows.
 
 # Download complete Python inclusive Setup-EXE:
 
-
+https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/PyMapStitcher3_Offline_Setup.exe
 
 <img width="1574" height="1048" alt="Screenshot 2026-05-31 210220" src="https://github.com/user-attachments/assets/ecd71c87-855c-476b-b00a-02ac7f6121fb" />
 
+# Download HERE:
+https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/PyMapStitcher3_Offline_Setup.exe
 # Features:
 
 Satellite map area selection in an interactive web map
@@ -22,3 +24,4 @@ PySide6 desktop interface
 Portable installation with bundled Python environment
 
 # Download HERE:
+https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/PyMapStitcher3_Offline_Setup.exe
