@@ -9,6 +9,7 @@ and high-performance tile processing for large-scale mapping workflows.
 https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/PyMapStitcher3_Offline_Setup.exe
 
 # Download the complete real exe offline installer here:
+https://gitlab.com/TWasfy/pymapstitcher-3/-/raw/main/PyMapStitcher3_OnedirEXE_Offline_Setup.exe?ref_type=heads
 
 https://archive.org/download/py-map-stitcher-3/PyMapStitcher3_OnedirEXE_Offline_Setup.exe
 
