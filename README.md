@@ -21,18 +21,19 @@ Install
 py -m pip install pymapstitcher
 Start
 pymapstitcher
+
 or:
 
 py -m pymapstitcher
+
 The package also installs the alias:
 
 pymapstitcher3
-Optional CUDA support
-CUDA stitching uses CuPy when available. It is optional because CUDA/CuPy wheels depend on the NVIDIA driver/CUDA generation.
 
-For CUDA 12.x, install:
+## For CUDA 12.x, install:
 
 py -m pip install "pymapstitcher[cuda]"
+
 If CuPy is unavailable, the application falls back to CPU stitching.
 
 pymapstitcher
