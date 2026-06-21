@@ -15,28 +15,24 @@ https://archive.org/download/py-map-stitcher-3/PyMapStitcher3_OnedirEXE_Offline_
 
 https://drive.google.com/file/d/1nj_I-FyyIF5o_mpjskkSrCtyjZnRnmvC/view?usp=sharing
 
-# Install from PyPI
+# Install from PyPI:
 
-Install
 py -m pip install pymapstitcher
-Start
+
+##Start:
+
 pymapstitcher
 
-or:
+##or:
 
 py -m pymapstitcher
-
-The package also installs the alias:
-
-pymapstitcher3
 
 ## For CUDA 12.x, install:
 
 py -m pip install "pymapstitcher[cuda]"
 
-If CuPy is unavailable, the application falls back to CPU stitching.
-
 pymapstitcher
+
 
 <img width="1574" height="1048" alt="Screenshot 2026-05-31 210220" src="https://github.com/user-attachments/assets/ecd71c87-855c-476b-b00a-02ac7f6121fb" />
 
