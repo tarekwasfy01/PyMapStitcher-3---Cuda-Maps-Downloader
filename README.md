@@ -19,13 +19,10 @@ https://drive.google.com/file/d/1nj_I-FyyIF5o_mpjskkSrCtyjZnRnmvC/view?usp=shari
 
 py -m pip install pymapstitcher
 
-##Start:
-
 pymapstitcher
 
-##or:
-
 py -m pymapstitcher
+
 
 ## For CUDA 12.x, install:
 
