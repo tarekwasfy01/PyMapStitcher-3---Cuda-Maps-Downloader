@@ -2,24 +2,154 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Mustatil</title>
+  <title>PyMapStitcher 3 - CUDA Maps Downloader</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Mustatil GIS-level AI vision workspace for annotation, YOLO training, detection, satellite-map analysis, and visual AI pipelines.">
+  <meta name="description" content="PyMapStitcher 3 is a low-RAM satellite maps downloader and stitcher with CUDA support, GeoTIFF/BigTIFF export, and georeferencing.">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      line-height: 1.6;
+      background: #f7f7f7;
+      color: #111;
+    }
+    main {
+      background: white;
+      padding: 32px;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 0.2em;
+    }
+    h2 {
+      margin-top: 2em;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.3em;
+    }
+    .subtitle {
+      font-size: 1.15rem;
+      color: #444;
+    }
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 28px 0;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 10px;
+      background: #111;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .button.secondary {
+      background: #444;
+    }
+    code, pre {
+      background: #f0f0f0;
+      border-radius: 8px;
+    }
+    code {
+      padding: 2px 6px;
+    }
+    pre {
+      padding: 16px;
+      overflow-x: auto;
+    }
+    ul {
+      padding-left: 1.4em;
+    }
+    footer {
+      margin-top: 40px;
+      color: #666;
+      font-size: 0.95rem;
+    }
+  </style>
 </head>
 <body>
-  <h1>Mustatil</h1>
-  <p>GIS-level AI vision workspace for annotation, YOLO training, large-scale detection, satellite-map analysis, and visual AI pipelines.</p>
+<main>
+  <h1>PyMapStitcher 3</h1>
+  <p class="subtitle">
+    CUDA Maps Downloader for very large satellite map areas, low-RAM stitching,
+    and georeferenced GeoTIFF / BigTIFF export.
+  </p>
 
-  <p>
-    <a href="https://github.com/tarekwasfy01/Mustatil-YOLO-AI-Model-Trainer-">
+  <div class="buttons">
+    <a class="button" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader">
       GitHub Repository
     </a>
+    <a class="button secondary" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/blob/main/README.md">
+      Read README
+    </a>
+    <a class="button secondary" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases">
+      Releases
+    </a>
+  </div>
+
+  <h2>About</h2>
+  <p>
+    PyMapStitcher 3 is a desktop application for downloading, stitching, and exporting
+    very large satellite map areas as georeferenced GeoTIFF or BigTIFF files.
+    It is designed for large-area remote sensing and mapping workflows where normal
+    map downloaders often run into memory limits.
   </p>
 
+  <h2>Main features</h2>
+  <ul>
+    <li>Interactive satellite map area selection</li>
+    <li>Large-area map tile downloading</li>
+    <li>Low-RAM stitching workflow</li>
+    <li>NVIDIA CUDA / CuPy acceleration support</li>
+    <li>GeoTIFF and BigTIFF export</li>
+    <li>Embedded georeferencing, including EPSG:3857 workflows</li>
+    <li>PySide6 desktop interface</li>
+    <li>Portable / offline installer workflow</li>
+  </ul>
+
+  <h2>Install from PyPI</h2>
+  <pre><code>py -m pip install --upgrade pip
+py -m pip install pymapstitcher
+pymapstitcher</code></pre>
+
+  <h2>Download</h2>
   <p>
-    <a href="https://github.com/tarekwasfy01/Mustatil-YOLO-AI-Model-Trainer-/releases">
-      Download Mustatil
+    The latest installer and release files are available from the GitHub Releases page:
+  </p>
+  <p>
+    <a href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases">
+      Open PyMapStitcher 3 Releases
     </a>
   </p>
+
+  <h2>Scientific archive</h2>
+  <p>
+    Zenodo DOI:
+    <a href="https://doi.org/10.5281/zenodo.20480746">
+      https://doi.org/10.5281/zenodo.20480746
+    </a>
+  </p>
+
+  <h2>README</h2>
+  <p>
+    The full project description, download links, installation notes, and feature list
+    are maintained in the GitHub README:
+  </p>
+  <p>
+    <a href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/blob/main/README.md">
+      Open the full README on GitHub
+    </a>
+  </p>
+
+  <footer>
+    PyMapStitcher 3 by Tarek Wasfy.
+  </footer>
+</main>
 </body>
 </html>
