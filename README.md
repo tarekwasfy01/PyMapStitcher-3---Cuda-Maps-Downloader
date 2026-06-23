@@ -1,5 +1,5 @@
-# PyMapStitcher 3:
 
+# PyMapStitcher 3: <img width="256" height="256" alt="PyMapStitcherIcon" src="https://github.com/user-attachments/assets/651846ca-a984-4dff-8688-42b011331e80" />
 PyMapStitcher 3 is a desktop application for downloading, stitching, and exporting very large satellite map areas as GeoTIFF/BigTIFF files. 
 The software supports GPU acceleration with NVIDIA CUDA and CuPy, direct GeoTIFF georeferencing, WebView-based map selection,
 and high-performance tile processing for large-scale mapping workflows. 
