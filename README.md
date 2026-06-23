@@ -25,7 +25,7 @@ https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/
 
 # Download Mac OS .pkg installer:
 
-
+https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/PyMapStitcher-3.0.0-macOS.pkg
 
 # Install from PyPI:
 
