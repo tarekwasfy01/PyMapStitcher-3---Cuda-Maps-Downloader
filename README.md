@@ -15,6 +15,14 @@ https://archive.org/download/py-map-stitcher-3/PyMapStitcher3_OnedirEXE_Offline_
 
 https://drive.google.com/file/d/1nj_I-FyyIF5o_mpjskkSrCtyjZnRnmvC/view?usp=sharing
 
+# Download Linux .deb installer:
+
+https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/pymapstitcher_3.0.0_amd64.deb
+
+# Download Mac OS .pkg installer:
+
+
+
 # Install from PyPI:
 
 py -m pip install pymapstitcher
