@@ -5,174 +5,538 @@
   <title>PyMapStitcher 3 - CUDA Maps Downloader</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="PyMapStitcher 3 is a low-RAM satellite maps downloader and stitcher with CUDA support, GeoTIFF/BigTIFF export, and georeferencing.">
+
   <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: rgba(255, 255, 255, 0.86);
+      --card-solid: #ffffff;
+      --text: #101828;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --primary: #111827;
+      --primary-hover: #000000;
+      --secondary: #344054;
+      --accent: #2563eb;
+      --accent-soft: #eff6ff;
+      --success-soft: #ecfdf3;
+      --shadow: 0 24px 70px rgba(16, 24, 40, 0.10);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      max-width: 960px;
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.16), transparent 34rem),
+        radial-gradient(circle at top right, rgba(20, 184, 166, 0.12), transparent 28rem),
+        linear-gradient(180deg, #ffffff 0%, var(--bg) 42%, #eef2f7 100%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 40px 20px;
-      line-height: 1.6;
-      background: #f7f7f7;
-      color: #111;
+      padding: 32px 0 48px;
     }
-    main {
-      background: white;
-      padding: 32px;
-      border-radius: 18px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 32px;
+      align-items: center;
+      padding: 44px;
+      margin-top: 12px;
+      border: 1px solid rgba(228, 231, 236, 0.9);
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
     }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -80px -120px auto;
+      width: 320px;
+      height: 320px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.08);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 8px 12px;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      color: #1d4ed8;
+      background: var(--accent-soft);
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .badge span {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.16);
+    }
+
     h1 {
-      font-size: 2.4rem;
-      margin-bottom: 0.2em;
+      margin: 18px 0 12px;
+      max-width: 820px;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: 0.98;
+      letter-spacing: -0.07em;
     }
-    h2 {
-      margin-top: 2em;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 0.3em;
-    }
+
     .subtitle {
-      font-size: 1.15rem;
-      color: #444;
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2.2vw, 1.28rem);
     }
-    .buttons {
+
+    .hero-card {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      min-height: 300px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.95), rgba(248,250,252,0.86)),
+        repeating-linear-gradient(45deg, transparent 0 12px, rgba(37, 99, 235, 0.04) 12px 24px);
+    }
+
+    .hero-card img {
+      width: min(220px, 72%);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 18px 28px rgba(16, 24, 40, 0.18));
+    }
+
+    .actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin: 28px 0;
+      margin-top: 30px;
     }
+
     .button {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
       padding: 12px 18px;
-      border-radius: 10px;
-      background: #111;
-      color: white;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #ffffff;
       text-decoration: none;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(17, 24, 39, 0.18);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      background: var(--primary-hover);
+      box-shadow: 0 14px 32px rgba(17, 24, 39, 0.22);
+    }
+
+    .button.secondary {
+      color: var(--primary);
+      border-color: var(--line);
+      background: #ffffff;
+      box-shadow: none;
+    }
+
+    .button.secondary:hover {
+      background: #f9fafb;
+    }
+
+    .section {
+      margin-top: 26px;
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--card-solid);
+      box-shadow: 0 14px 44px rgba(16, 24, 40, 0.06);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.45rem, 2.5vw, 2rem);
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+    }
+
+    .section-kicker {
+      margin: 0;
+      color: var(--muted);
       font-weight: 600;
     }
-    .button.secondary {
-      background: #444;
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 0;
+      margin: 22px 0 0;
+      list-style: none;
     }
-    code, pre {
-      background: #f0f0f0;
-      border-radius: 8px;
-    }
-    code {
-      padding: 2px 6px;
-    }
-    pre {
+
+    .feature-grid li,
+    .download-card {
       padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: #fcfcfd;
+    }
+
+    .feature-grid li::before {
+      content: "✓";
+      display: inline-grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      margin-right: 10px;
+      border-radius: 999px;
+      color: #027a48;
+      background: var(--success-soft);
+      font-weight: 900;
+    }
+
+    .code-block {
+      margin: 20px 0 0;
+      padding: 18px;
       overflow-x: auto;
-    }
-    ul {
-      padding-left: 1.4em;
-    }
-    footer {
-      margin-top: 40px;
-      color: #666;
+      border: 1px solid #d0d5dd;
+      border-radius: var(--radius-sm);
+      background: #0b1220;
+      color: #e6edf7;
       font-size: 0.95rem;
+    }
+
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .download-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .download-card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    .download-card .button {
+      width: fit-content;
+      min-height: 42px;
+      padding: 10px 15px;
+      font-size: 0.94rem;
+    }
+
+    .snap-badge {
+      display: inline-block;
+      margin-top: 14px;
+    }
+
+    .snap-badge img {
+      height: 46px;
+      width: auto;
+      display: block;
+    }
+
+    .screenshot {
+      width: 100%;
+      max-width: 760px;
+      height: auto;
+      display: block;
+      margin: 22px auto 0;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 18px 48px rgba(16, 24, 40, 0.14);
+    }
+
+    .note {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      color: #1e3a8a;
+      background: var(--accent-soft);
+    }
+
+    footer {
+      margin-top: 28px;
+      padding: 24px 4px 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    @media (max-width: 820px) {
+      .page {
+        width: min(100% - 22px, 1120px);
+        padding-top: 12px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 28px;
+      }
+
+      .hero-card {
+        min-height: 220px;
+      }
+
+      .section {
+        padding: 24px;
+      }
+
+      .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .feature-grid,
+      .download-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .download-card .button {
+        width: 100%;
+      }
     }
   </style>
 </head>
+
 <body>
-<main>
-  <h1>PyMapStitcher 3</h1>
-  <p class="subtitle">
-    CUDA Maps Downloader for very large satellite map areas, low-RAM stitching,
-    and georeferenced GeoTIFF / BigTIFF export.
-    <img width="256" height="256" alt="PyMapStitcherIcon" src="https://github.com/user-attachments/assets/651846ca-a984-4dff-8688-42b011331e80" />
-  </p>
+  <div class="page">
+    <main>
+      <section class="hero">
+        <div>
+          <div class="badge"><span></span> PyMapStitcher 3</div>
 
-  <div class="buttons">
-    <a class="button" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader">
-      GitHub Repository
-    </a>
-    <a class="button secondary" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/blob/main/README.md">
-      Read README
-    </a>
-    <a class="button secondary" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases">
-      Releases
+          <h1>CUDA Maps Downloader for huge satellite areas.</h1>
 
+          <p class="subtitle">
+            Low-RAM satellite tile downloading, stitching, georeferencing, and GeoTIFF / BigTIFF export for very large mapping and remote-sensing workflows.
+          </p>
 
-    </a>
-  </div>
+          <div class="actions" aria-label="Main links">
+            <a class="button" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader">
+              GitHub Repository
+            </a>
+            <a class="button secondary" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/blob/main/README.md">
+              Read README
+            </a>
+            <a class="button secondary" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases">
+              Releases
+            </a>
+          </div>
+        </div>
 
-  <h2>About</h2>
-  <p>
-    PyMapStitcher 3 is a desktop application for downloading, stitching, and exporting
-    very large satellite map areas as georeferenced GeoTIFF or BigTIFF files.
-    It is designed for large-area remote sensing and mapping workflows where normal
-    map downloaders often run into memory limits.
-  </p>
+        <div class="hero-card" aria-label="PyMapStitcher application icon">
+          <img
+            width="256"
+            height="256"
+            alt="PyMapStitcher icon"
+            src="https://github.com/user-attachments/assets/651846ca-a984-4dff-8688-42b011331e80">
+        </div>
+      </section>
 
-  <h2>Main features</h2>
-  <ul>
-    <li>Interactive satellite map area selection</li>
-    <li>Large-area map tile downloading</li>
-    <li>Low-RAM stitching workflow</li>
-    <li>NVIDIA CUDA / CuPy acceleration support</li>
-    <li>GeoTIFF and BigTIFF export</li>
-    <li>Embedded georeferencing, including EPSG:3857 workflows</li>
-    <li>PySide6 desktop interface</li>
-    <li>Portable / offline installer workflow</li>
-  </ul>
+      <section class="section" id="about">
+        <div class="section-header">
+          <h2>About</h2>
+          <p class="section-kicker">Large-area maps without heavy RAM usage</p>
+        </div>
 
-  <h2>Install from PyPI</h2>
-  <pre><code>py -m pip install --upgrade pip
+        <p>
+          PyMapStitcher 3 is a desktop application for downloading, stitching, and exporting very large satellite map areas as georeferenced GeoTIFF or BigTIFF files. It is designed for large-area remote sensing and mapping workflows where normal map downloaders often run into memory limits.
+        </p>
+      </section>
+
+      <section class="section" id="features">
+        <div class="section-header">
+          <h2>Main features</h2>
+          <p class="section-kicker">Mapping, CUDA acceleration, and GIS-ready export</p>
+        </div>
+
+        <ul class="feature-grid">
+          <li>Interactive satellite map area selection</li>
+          <li>Large-area map tile downloading</li>
+          <li>Low-RAM stitching workflow</li>
+          <li>NVIDIA CUDA / CuPy acceleration support</li>
+          <li>GeoTIFF and BigTIFF export</li>
+          <li>Embedded georeferencing with EPSG:3857 workflows</li>
+          <li>Modern PySide6 desktop interface</li>
+          <li>Portable / offline installer workflow</li>
+        </ul>
+      </section>
+
+      <section class="section" id="install">
+        <div class="section-header">
+          <h2>Install from PyPI</h2>
+          <p class="section-kicker">Fast Python installation</p>
+        </div>
+
+        <pre class="code-block"><code>py -m pip install --upgrade pip
 py -m pip install pymapstitcher
 pymapstitcher</code></pre>
+      </section>
 
-  <h2>Download</h2>
-  <p>
-     <p> Download .EXE :</p>
-    <p><a href="https://gitlab.com/TWasfy/pymapstitcher-3/-/raw/main/PyMapStitcher3_OnedirEXE_Offline_Setup.exe?ref_type=heads">https://gitlab.com/TWasfy/pymapstitcher-3/-/raw/main/PyMapStitcher3_OnedirEXE_Offline_Setup.exe?ref_type=heads</a></p>
-  
-   <p> <a href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/PyMapStitcher3_Offline_Setup.exe">https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/PyMapStitcher3_Offline_Setup.exe</a> </p>
-   </p> The latest installer and release files are available from the GitHub Releases page:
-  </p>
-  <p>
-    <a href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases">
-      Open PyMapStitcher 3 Releases
-    </a>
+      <section class="section" id="download">
+        <div class="section-header">
+          <h2>Download</h2>
+          <p class="section-kicker">Windows, Linux, Snap Store, and macOS</p>
+        </div>
 
+        <div class="download-grid">
+          <article class="download-card">
+            <h3>Windows offline installer</h3>
+            <p>Recommended Windows .EXE setup.</p>
+            <a class="button" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/PyMapStitcher3_Offline_Setup.exe">
+              Download Windows EXE
+            </a>
+          </article>
 
-  <h2> Download Linux .deb installer:</h2>
-    
-  <p> <a href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/pymapstitcher_3.0.0_amd64.deb">https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/pymapstitcher_3.0.0_amd64.deb</a>   </p>
+          <article class="download-card">
+            <h3>Windows onedir installer</h3>
+            <p>Alternative GitLab-hosted Windows .EXE package.</p>
+            <a class="button secondary" href="https://gitlab.com/TWasfy/pymapstitcher-3/-/raw/main/PyMapStitcher3_OnedirEXE_Offline_Setup.exe?ref_type=heads">
+              Download Onedir EXE
+            </a>
+          </article>
 
-<a href="https://snapcraft.io/pymapstitcher">
-    <img alt="Get it from the Snap Store" src=https://snapcraft.io/en/dark/install.svg />
-   </a>
-<h2>Download Mac OS .pkg installer:</h2>
- 
-    <p>   <a href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/PyMapStitcher-3.0.0-macOS.pkg"> https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/PyMapStitcher-3.0.0-macOS.pkg</a>   </p>
-    
-  </p>
+          <article class="download-card">
+            <h3>Linux .deb installer</h3>
+            <p>Debian / Ubuntu package for amd64 systems.</p>
+            <a class="button" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/pymapstitcher_3.0.0_amd64.deb">
+              Download Linux DEB
+            </a>
+          </article>
 
-  <h2>Scientific archive</h2>
-  <p>
-    Zenodo DOI:
-    <a href="https://doi.org/10.5281/zenodo.20480746">
-      https://doi.org/10.5281/zenodo.20480746
-    </a>
-  </p>
+          <article class="download-card">
+            <h3>Snap Store</h3>
+            <p>Install PyMapStitcher from Snapcraft.</p>
+            <a class="snap-badge" href="https://snapcraft.io/pymapstitcher" aria-label="Get it from the Snap Store">
+              <img alt="Get it from the Snap Store" src="https://snapcraft.io/en/dark/install.svg">
+            </a>
+          </article>
 
-  <h2>README</h2>
-  <p>
-  
-<img width="640" height="480" alt="Screenshot 2026-05-29 182916" src="https://github.com/user-attachments/assets/ecd71c87-855c-476b-b00a-02ac7f6121fb" >
-    
-  <p>The full project description, download links, installation notes, and feature list</p>
-  are maintained in the GitHub README:
-  </p>
-  <p>
-    <a href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/blob/main/README.md">
-      Open the full README on GitHub
-    </a>
-  </p>
+          <article class="download-card">
+            <h3>macOS .pkg installer</h3>
+            <p>macOS package installer.</p>
+            <a class="button" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/PyMapStitcher-3.0.0-macOS.pkg">
+              Download macOS PKG
+            </a>
+          </article>
 
-  <footer>
-    PyMapStitcher 3 by Tarek Wasfy and AI.
-  </footer>
-</main>
+          <article class="download-card">
+            <h3>All releases</h3>
+            <p>Latest installers, release files, and older versions.</p>
+            <a class="button secondary" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases">
+              Open Releases
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="archive">
+        <div class="section-header">
+          <h2>Scientific archive</h2>
+          <p class="section-kicker">Permanent DOI reference</p>
+        </div>
+
+        <p>
+          Zenodo DOI:
+          <a href="https://doi.org/10.5281/zenodo.20480746">
+            https://doi.org/10.5281/zenodo.20480746
+          </a>
+        </p>
+      </section>
+
+      <section class="section" id="readme">
+        <div class="section-header">
+          <h2>README</h2>
+          <p class="section-kicker">Full documentation on GitHub</p>
+        </div>
+
+        <p>
+          The full project description, download links, installation notes, and feature list are maintained in the GitHub README.
+        </p>
+
+        <a class="button secondary" href="https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/blob/main/README.md">
+          Open full README
+        </a>
+
+        <img
+          class="screenshot"
+          width="640"
+          height="480"
+          alt="PyMapStitcher screenshot"
+          src="https://github.com/user-attachments/assets/ecd71c87-855c-476b-b00a-02ac7f6121fb">
+
+        <div class="note">
+          PyMapStitcher 3 is built for large map areas, low-RAM stitching, CUDA acceleration, and GIS-ready exports.
+        </div>
+      </section>
+
+      <footer>
+        PyMapStitcher 3 by Tarek Wasfy and AI.
+      </footer>
+    </main>
+  </div>
 </body>
 </html>
