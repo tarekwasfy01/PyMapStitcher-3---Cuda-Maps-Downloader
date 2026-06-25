@@ -14,7 +14,8 @@ https://gitlab.com/TWasfy/pymapstitcher-3/-/raw/main/PyMapStitcher3_OnedirEXE_Of
 https://archive.org/download/py-map-stitcher-3/PyMapStitcher3_OnedirEXE_Offline_Setup.exe
 
 https://drive.google.com/file/d/1nj_I-FyyIF5o_mpjskkSrCtyjZnRnmvC/view?usp=sharing
-
+# Download from Microsoft Store:
+<a href="https://get.microsoft.com/installer/download/9PDS632RMS2S?referrer=appbadge" target="_self" > <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/> </a>
 # Download Linux .deb installer:
 
 https://github.com/tarekwasfy01/PyMapStitcher-3---Cuda-Maps-Downloader/releases/download/PyMapStitcher3/pymapstitcher_3.0.0_amd64.deb
